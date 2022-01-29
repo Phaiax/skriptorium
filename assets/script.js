@@ -44,7 +44,7 @@ function main() {
 
 
 	const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Z', 'Y', 'Ä', 'Ö', 'Ü'];
-    function classifyMajuskels(text) {
+    function classify_majuskels(text) {
     	for (const c of letters) {
     		text = text.replaceAll(c, `[${c}]`)
     	}
@@ -71,7 +71,7 @@ function main() {
 			game.playing = false;
 			return;
 		}
-		game.eSourceText.innerHTML = classifyMajuskels(pages[game.pageIndex]);
+		game.eSourceText.innerHTML = classify_majuskels(pages[game.pageIndex]);
 		game.nextLetterIndex = 0;
 		game.shiftState1 = true;
 		game.eTargetText.innerHTML = "";
@@ -128,7 +128,76 @@ function main() {
 		window.setTimeout(next_char, game.currWaitTime + extra);
 	}
 
+	function get_random_int(max) {
+	  return Math.floor(Math.random() * max);
+	}
+
+	function setup_audio() {
+		const audioContext = new AudioContext();
+		game.audioContext = audioContext;
+
+		function make_ambient(id, gain) {
+			let o = {}
+			o.Element = document.querySelector(`audio#${id}`);
+			o.Src = audioContext.createMediaElementSource(o.Element);
+			o.Gain = new GainNode(audioContext, {gain: gain});
+			o.Panner = new StereoPannerNode(audioContext, { pan: 0 });
+			o.Src.connect(o.Gain).connect(o.Panner).connect(audioContext.destination);
+			o.duration = 1; // not undefined :)
+			o.Element.addEventListener('loadedmetadata', (event) => {
+				o.duration = o.Element.duration;
+			});
+			return o;
+		}
+		let ambients = {}
+		game.ambients = ambients;
+
+		ambients.activity1 = make_ambient("a-activity1", 0.2)
+		ambients.activity2 = make_ambient("a-activity2", 0.2)
+		ambients.activity3 = make_ambient("a-activity3", 0.2)
+		ambients.activity4 = make_ambient("a-activity4", 0.2)
+		ambients.activity5 = make_ambient("a-activity5", 0.2)
+		ambients.activity6 = make_ambient("a-activity6", 0.2)
+		ambients.activity7 = make_ambient("a-activity7", 0.2)
+		ambients.activity8 = make_ambient("a-activity8", 0.2)
+		ambients.activity9 = make_ambient("a-activity9", 0.2)
+		ambients.activity10 = make_ambient("a-activity10", 0.2)
+		ambients.choral = make_ambient("a-choral", 0.1)
+		ambients.mumble1 = make_ambient("a-mumble1", 0.4)
+		ambients.mumble2 = make_ambient("a-mumble2", 0.4)
+		ambients.paper = make_ambient("a-paper", 0.3)
+		ambients.steps1 = make_ambient("a-steps1", 0.4)
+		ambients.steps2 = make_ambient("a-steps2", 0.4)
+
+		ambients.quill1 = make_ambient("a-quill1", 0.4)
+		ambients.quill2 = make_ambient("a-quill2", 0.4)
+
+
+
+		function doAmbient() {
+			// randomly play ambient
+			let pan = (Math.random() * 2) - 1;
+			const keys = Object.keys(ambients);
+			const key = keys[get_random_int(keys.length)];
+			const ambient = ambients[key];
+
+			ambient.Element.play();
+
+			let wait_to_next = 1000 + get_random_int(3000);
+			console.log(`Ambient: ${key} (takes ${ambient.duration}s, then waiting ${wait_to_next}ms)`);
+			window.setTimeout(doAmbient, (ambient.duration * 1000) + wait_to_next);
+		}
+
+	    if (audioContext.state === 'suspended') {
+	        audioContext.resume();
+	    }
+
+	    doAmbient();
+	}
+
+	setup_audio();
 	start_game();
+
 }
 
 main();
