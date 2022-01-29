@@ -73,6 +73,22 @@ h1#main-title {
 	padding: 110px 110px 100px 130px;
 }
 #target {
+	position: relative;
     width: 48%;
-
+    height: 100%;
+}
+#target > img {
+	position: absolute;
+	height: 100%;
+	z-index: 5;
+}
+#target > div {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	overflow: hidden;
+	z-index: 10;
+	font-family: "MonksWriting";
+	font-size: 1.2em;
+	padding: 110px 110px 100px 130px;
 }
