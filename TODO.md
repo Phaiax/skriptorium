@@ -14,6 +14,7 @@
  - Ambient
  - Comments
  - Design
+ - Favicon
 
 # Extra
  - Writing animation

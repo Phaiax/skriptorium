@@ -51,6 +51,7 @@ h1#main-title {
 	justify-content: space-between;
 	align-items: center; /* cross axis */
 	height: 100%;
+	font-size: 1.3em;
 }
 #source {
 	position: relative;
@@ -69,7 +70,6 @@ h1#main-title {
 	overflow: hidden;
 	z-index: 10;
 	font-family: "MonksWriting";
-	font-size: 1.2em;
 	padding: 110px 110px 100px 130px;
 }
 #target {
@@ -89,6 +89,5 @@ h1#main-title {
 	overflow: hidden;
 	z-index: 10;
 	font-family: "MonksWriting";
-	font-size: 1.2em;
 	padding: 110px 110px 100px 130px;
 }
