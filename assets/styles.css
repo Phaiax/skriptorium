@@ -15,7 +15,7 @@ body {
     background-image: url(skriptorium.jpg);
     background-repeat: no-repeat;
     background-size: cover; /*100% auto;*/
-    background-position: center top;
+    background-position: center center;
     background-attachment: fixed;
 }
 
@@ -30,7 +30,7 @@ body {
 
 #playarea {
 	width: 80em;
-	max-width: 90%;
+	/*max-width: 90%;*/
 	height: 50em;
 	max-height: 90%;
 	background-color: #00000090;
@@ -42,5 +42,37 @@ h1#main-title {
 	text-align: center;
 	color: #EEEEEE;
 	font-size: 7em;
+	display: none;
 }
 
+#books {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center; /* cross axis */
+	height: 100%;
+}
+#source {
+	position: relative;
+    width: 48%;
+    height: 100%;
+}
+#source > img {
+	position: absolute;
+	height: 100%;
+	z-index: 5;
+}
+#source > div {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	overflow: hidden;
+	z-index: 10;
+	font-family: "MonksWriting";
+	font-size: 1.2em;
+	padding: 110px 110px 100px 130px;
+}
+#target {
+    width: 48%;
+
+}
