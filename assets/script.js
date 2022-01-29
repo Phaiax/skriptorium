@@ -152,29 +152,97 @@ function main() {
 		let ambients = {}
 		game.ambients = ambients;
 
-		ambients.activity1 = make_ambient("a-activity1", 0.2)
-		ambients.activity2 = make_ambient("a-activity2", 0.2)
-		ambients.activity3 = make_ambient("a-activity3", 0.2)
-		ambients.activity4 = make_ambient("a-activity4", 0.2)
-		ambients.activity5 = make_ambient("a-activity5", 0.2)
-		ambients.activity6 = make_ambient("a-activity6", 0.2)
-		ambients.activity7 = make_ambient("a-activity7", 0.2)
-		ambients.activity8 = make_ambient("a-activity8", 0.2)
-		ambients.activity9 = make_ambient("a-activity9", 0.2)
-		ambients.activity10 = make_ambient("a-activity10", 0.2)
-		ambients.choral = make_ambient("a-choral", 0.1)
-		ambients.mumble1 = make_ambient("a-mumble1", 0.4)
-		ambients.mumble2 = make_ambient("a-mumble2", 0.4)
-		ambients.paper = make_ambient("a-paper", 0.3)
-		ambients.steps1 = make_ambient("a-steps1", 0.4)
-		ambients.steps2 = make_ambient("a-steps2", 0.4)
-
-		ambients.quill1 = make_ambient("a-quill1", 0.4)
-		ambients.quill2 = make_ambient("a-quill2", 0.4)
-
+		ambients.activity1 = make_ambient("a-activity1", 0.2);
+		ambients.activity2 = make_ambient("a-activity2", 0.2);
+		ambients.activity3 = make_ambient("a-activity3", 0.2);
+		ambients.activity4 = make_ambient("a-activity4", 0.2);
+		ambients.activity5 = make_ambient("a-activity5", 0.2);
+		ambients.activity6 = make_ambient("a-activity6", 0.2);
+		ambients.activity7 = make_ambient("a-activity7", 0.2);
+		ambients.activity8 = make_ambient("a-activity8", 0.2);
+		ambients.activity9 = make_ambient("a-activity9", 0.2);
+		ambients.activity10 = make_ambient("a-activity10", 0.2);
+		ambients.choral = make_ambient("a-choral", 0.1);
+		ambients.mumble1 = make_ambient("a-mumble1", 0.4);
+		ambients.mumble2 = make_ambient("a-mumble2", 0.4);
+		ambients.paper = make_ambient("a-paper", 0.3);
+		ambients.steps1 = make_ambient("a-steps1", 0.4);
+		ambients.steps2 = make_ambient("a-steps2", 0.4);
+		ambients.quill1 = make_ambient("a-quill1", 0.4);
+		ambients.quill2 = make_ambient("a-quill2", 0.4);
 
 
-		function doAmbient() {
+		let sayingsn = {} // negative
+		let sayingsp = {} // positive
+		let sayingss = {} // speedup
+		let sayingsg = {} // general
+		let sayingsc = {} // credits
+		game.sayings = {p: sayingsp, n: sayingsn, g: sayingsg, c: sayingsc, s: sayingss};
+
+		sayingsn.alsbrennmaterialtaugteswohl = make_saying("v-alsbrennmaterialtaugteswohl");
+		sayingsn.ausdiesemskriptumkannmanhoechstenseinebuchstabsneuppemachen = make_saying("v-ausdiesemskriptumkannmanhoechstenseinebuchstabsneuppemachen");
+		sayingsn.brauchtihreineneuekerze = make_saying("v-brauchtihreineneuekerze");
+		sayingsc.credits1 = make_saying("v-credits1");
+		sayingsc.credits2 = make_saying("v-credits2");
+		sayingsc.credits3 = make_saying("v-credits3");
+		sayingsc.credits4 = make_saying("v-credits4");
+		sayingsn.daslaeuftwohlunterdichtericherfreiheit = make_saying("v-daslaeuftwohlunterdichtericherfreiheit");
+		sayingsn.derabendistnochlang = make_saying("v-derabendistnochlang");
+		sayingss.derabterwartetdieabschriftzursechstenstunde = make_saying("v-derabterwartetdieabschriftzursechstenstunde");
+		// sayingsg.derbaumhataestedasistdasbestedennwaerseinpfahldannwaererkahl = make_saying("v-derbaumhataestedasistdasbestedennwaerseinpfahldannwaererkahl");
+		sayingsg.derbaumhataestedasistdasbestedennwaerseinpfahldannwaererkahl2 = make_saying("v-derbaumhataestedasistdasbestedennwaerseinpfahldannwaererkahl2");
+		sayingsp.dieserkodexgereichteuchzurehre = make_saying("v-dieserkodexgereichteuchzurehre");
+		// sayingsg.eilemitweile = make_saying("v-eilemitweile");
+		sayingsg.eilemitweile2 = make_saying("v-eilemitweile2");
+		// sayingsp.eineflinkehand = make_saying("v-eineflinkehand");
+		sayingsp.eineflinkehand2 = make_saying("v-eineflinkehand2");
+		sayingsp.einepraechtigemajuskel = make_saying("v-einepraechtigemajuskel");
+		sayingsp.eineruhigehand = make_saying("v-eineruhigehand");
+		sayingsn.eineseiteistnochkeinbuch = make_saying("v-eineseiteistnochkeinbuch");
+		sayingsp.eingutesaugenmas = make_saying("v-eingutesaugenmas");
+		sayingsn.einkrampfinderhandistnochkeineentschuldigung = make_saying("v-einkrampfinderhandistnochkeineentschuldigung");
+		sayingsp.einschreiberlingwieerimbuchesteht = make_saying("v-einschreiberlingwieerimbuchesteht");
+		sayingsp.eurefederistsoscharfwieeuerverstand = make_saying("v-eurefederistsoscharfwieeuerverstand");
+		sayingsp.eurehandschreibtschweisfrei = make_saying("v-eurehandschreibtschweisfrei");
+		sayingsp.eurehingabeistbewundernswert = make_saying("v-eurehingabeistbewundernswert");
+		sayingsp.flinkwieehundjeh = make_saying("v-flinkwieehundjeh");
+		sayingsn.habtihrdemweinzugesprochen = make_saying("v-habtihrdemweinzugesprochen");
+		sayingss.hurtig = make_saying("v-hurtig");
+		sayingss.hurtigdasabendgebetbeginntinwenigenminuten = make_saying("v-hurtigdasabendgebetbeginntinwenigenminuten");
+		sayingsp.ichseheihrseidmitdergotischenminuskelvertrait = make_saying("v-ichseheihrseidmitdergotischenminuskelvertrait");
+		sayingsp.ichwerdedembibliothekarvoneurenfortschrittenberichten = make_saying("v-ichwerdedembibliothekarvoneurenfortschrittenberichten");
+		sayingsp.ihrfuehrteinespitzefeder = make_saying("v-ihrfuehrteinespitzefeder");
+		sayingsn.ihrhabteinmajuskelproblemmeinlieber = make_saying("v-ihrhabteinmajuskelproblemmeinlieber");
+		sayingsn.ihrseidnichtwuerdigfuerdasskriptorium = make_saying("v-ihrseidnichtwuerdigfuerdasskriptorium");
+		sayingsn.ihrsitztganzschoenindertinte = make_saying("v-ihrsitztganzschoenindertinte");
+		sayingsg.ihrtaetigteineehrenswerteaufgabe = make_saying("v-ihrtaetigteineehrenswerteaufgabe");
+		sayingsg.ihrwandertaufdemschmalengradzwischenmajuskelundminuskel = make_saying("v-ihrwandertaufdemschmalengradzwischenmajuskelundminuskel");
+		sayingsn.ihrwartetwohlaufdieerfindungderbrille = make_saying("v-ihrwartetwohlaufdieerfindungderbrille");
+		sayingss.keinemuedigkeitvorschuetzen = make_saying("v-keinemuedigkeitvorschuetzen");
+		sayingsn.majuskelnsinddiegrosenminuskelndiekleinenfallsihresvergessenhabt = make_saying("v-majuskelnsinddiegrosenminuskelndiekleinenfallsihresvergessenhabt");
+		// sayingsg.majuskelnundminuskelnhauptsachekeinepusteln = make_saying("v-majuskelnundminuskelnhauptsachekeinepusteln");
+		sayingsp.manhateuchgutausgebildet = make_saying("v-manhateuchgutausgebildet");
+		sayingsp.manwaechstmitseinenaufgaben = make_saying("v-manwaechstmitseinenaufgaben");
+		sayingsp.meistergutenberghaetteesnichtbesserdruckenkoennen = make_saying("v-meistergutenberghaetteesnichtbesserdruckenkoennen");
+		sayingsp.minuskelnsindeurestaerke = make_saying("v-minuskelnsindeurestaerke");
+		sayingsg.morgenstundhatgoldimmund = make_saying("v-morgenstundhatgoldimmund");
+		sayingsn.nunjaerrarehumanumest = make_saying("v-nunjaerrarehumanumest");
+		sayingsg.oraetlabora = make_saying("v-oraetlabora");
+		sayingsn.papieristgeduldig = make_saying("v-papieristgeduldig");
+		sayingsn.regelnsindnunmalregeln = make_saying("v-regelnsindnunmalregeln");
+		sayingss.schnellerschneller = make_saying("v-schnellerschneller");
+		sayingss.schwingtdiefeder = make_saying("v-schwingtdiefeder");
+		sayingsp.sehrgut = make_saying("v-sehrgut");
+		sayingss.sputeteuch = make_saying("v-sputeteuch");
+		sayingsg.uebungmachtdenmeister = make_saying("v-uebungmachtdenmeister");
+		sayingsn.welcheinesudelei = make_saying("v-welcheinesudelei");
+		// sayingsp.werwagtgewinnt = make_saying("v-werwagtgewinnt");
+		sayingsp.werwagtgewinnt2 = make_saying("v-werwagtgewinnt2");
+		sayingsg.wogehobeltwirdfallenspaene = make_saying("v-wogehobeltwirdfallenspaene");
+		sayingsg.wogeschriebenwirddatropftdietinte = make_saying("v-wogeschriebenwirddatropftdietinte");
+
+
+		function do_ambient() {
 			// randomly play ambient
 			let pan = (Math.random() * 2) - 1;
 			const keys = Object.keys(ambients);
@@ -185,14 +253,14 @@ function main() {
 
 			let wait_to_next = 1000 + get_random_int(3000);
 			console.log(`Ambient: ${key} (takes ${ambient.duration}s, then waiting ${wait_to_next}ms)`);
-			window.setTimeout(doAmbient, (ambient.duration * 1000) + wait_to_next);
+			window.setTimeout(do_ambient, (ambient.duration * 1000) + wait_to_next);
 		}
 
 	    if (audioContext.state === 'suspended') {
 	        audioContext.resume();
 	    }
 
-	    doAmbient();
+	    do_ambient();
 	}
 
 	setup_audio();
