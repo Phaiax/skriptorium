@@ -51,7 +51,7 @@ h1#main-title {
 	justify-content: space-between;
 	align-items: center; /* cross axis */
 	height: 100%;
-	font-size: 1.3em;
+	font-size: 1.7em;
 }
 #source {
 	position: relative;
@@ -90,4 +90,8 @@ h1#main-title {
 	z-index: 10;
 	font-family: "MonksWriting";
 	padding: 110px 110px 100px 130px;
+}
+
+.maj {
+	color: #d40400;
 }
