@@ -12,6 +12,8 @@ function main() {
 
 	game.eTargetText = document.getElementById('target-text');
 	game.eSourceText = document.getElementById('source-text');
+	game.eScoreCnt = document.getElementById('scorecnt');
+	game.eCollection = document.getElementById('collection');
 
 	document.body.onkeydown = (e) => {
 		// console.log(e);
@@ -57,12 +59,29 @@ function main() {
 	function start_game() {
 		game.playing = true;
 		game.currWaitTime = 400;
+		game.score = 0;
+		game.collection = "";
 		if (game.fasttrack) {
 			game.currWaitTime = 10;
 		}
 
 		game.pageIndex = 0;
 		open_page();
+	}
+
+	function update_score(delta, majuskel) {
+		if (delta !== undefined) {
+			game.score = Math.max(0, game.score + delta);
+		}
+		if (majuskel !== undefined) {
+			game.collection += majuskel;
+		}
+		if (delta < 0 && game.collection.length >= -delta) {
+			game.collection = game.collection.slice(0, delta);
+		}
+		game.eCollection.innerText = game.collection;
+		game.eScoreCnt.innerText = game.score;
+
 	}
 
 
@@ -75,6 +94,8 @@ function main() {
 		game.nextLetterIndex = 0;
 		game.shiftState1 = true;
 		game.eTargetText.innerHTML = "";
+		game.collection = "";
+		update_score();
 		let pageDelay = 2000;
 		if (game.fasttrack) {
 			pageDelay = 200;
@@ -94,16 +115,37 @@ function main() {
 			return;
 		}
 		let content;
-		if (next.trim().length > 0 && (game.shiftState || game.shiftState1)) {
-			next = next.toUpperCase();
-			game.shiftState1 = false;
-		} else {
-			next = next.toLowerCase();
-		}
-		if (next.toLowerCase() != next) { // Upper
-			content = document.createElement('span');
-			content.innerText = next;
-			content.setAttribute('class', 'maj')
+		const is_alphanumeric = next.match(/[a-zA-Z]/) != null;
+		if (is_alphanumeric) {
+			const should_upper = next.match(/[A-Z]/) != null;
+			let is_upper = false;
+			if (game.shiftState || game.shiftState1) {
+				next = next.toUpperCase();
+				game.shiftState1 = false;
+				is_upper = true;
+			} else {
+				next = next.toLowerCase();
+				// is_upper = false
+			}
+
+			if (is_upper && should_upper) {
+				update_score(3, next);
+			}
+			// if (should_upper && !is_upper) {
+			// 	update_score(-1);
+			// }
+			if (!should_upper && is_upper) {
+				update_score(-1);
+			}
+
+			if (is_upper) {
+				content = document.createElement('span');
+				content.innerText = next;
+				content.setAttribute('class', 'maj')
+			} else {
+				content = document.createTextNode(next);
+			}
+
 		} else {
 			content = document.createTextNode(next);
 		}
@@ -171,6 +213,19 @@ function main() {
 		ambients.quill1 = make_ambient("a-quill1", 0.4);
 		ambients.quill2 = make_ambient("a-quill2", 0.4);
 
+		function make_saying(id) {
+			let o = {}
+			o.Element = document.querySelector(`audio#${id}`);
+			o.Src = audioContext.createMediaElementSource(o.Element);
+			o.Gain = new GainNode(audioContext, {gain: 0.8});
+			o.Panner = new StereoPannerNode(audioContext, { pan: 0 });
+			o.Src.connect(o.Gain).connect(o.Panner).connect(audioContext.destination);
+			o.duration = 1; // not undefined :)
+			o.Element.addEventListener('loadedmetadata', (event) => {
+				o.duration = o.Element.duration;
+			});
+			return o;
+		}
 
 		let sayingsn = {} // negative
 		let sayingsp = {} // positive
