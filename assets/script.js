@@ -361,6 +361,7 @@ function main() {
 		sayingsp.werwagtgewinnt2 = make_saying("v-werwagtgewinnt2");
 		sayingsg.wogehobeltwirdfallenspaene = make_saying("v-wogehobeltwirdfallenspaene");
 		sayingsg.wogeschriebenwirddatropftdietinte = make_saying("v-wogeschriebenwirddatropftdietinte");
+		sayingsn.schreibenistdochkeinhexenwerkzumglueck = make_saying("v-schreibenistdochkeinhexenwerkzumglueck");
 
 
 		function do_ambient() {
