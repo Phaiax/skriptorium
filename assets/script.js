@@ -70,6 +70,7 @@ function main() {
 		prepare_source();
 		game.eHelpText.innerText = "Drücke die Leertaste zum Starten und zum Großschreiben.";
 		game.play_state = "wait_space_start_writing";
+		window.setTimeout(sound_while_waiting_for_start, 1000);
 	}
 
 	function update_score(delta) {
@@ -90,6 +91,24 @@ function main() {
 		update_score();
 	}
 
+	function sound_while_waiting_for_start() {
+		if (game.play_state != "wait_space_start_writing") {
+			return;
+		}
+		const duration = trigger_saying("s");
+		window.setTimeout(sound_while_waiting_for_start, duration +
+			3000 + get_random_int(8000));
+	}
+
+	function sound_while_idling() {
+		if (game.play_state != "finished") {
+			return;
+		}
+		const duration = trigger_saying("g");
+		window.setTimeout(sound_while_idling, duration +
+			3000 + get_random_int(8000));
+	}
+
 	function on_page_finished() {
 		game.pageIndex += 1;
 		game.play_state = "animation_score_count";
@@ -106,6 +125,7 @@ function main() {
 			}, time);
 			time += 150;
 		}
+		time += 2000;
 		for (const minus of minuses) {
 			window.setTimeout(() => {
 				update_score(-10);
@@ -113,11 +133,18 @@ function main() {
 			}, time);
 			time += 150;
 		}
-		time += 1000;
+		time += 2000;
 		window.setTimeout(() => {
-			prepare_source();
-			game.eHelpText.innerText = "Weiterschreiben mit Leertaste.";
-			game.play_state = "wait_space_start_writing";
+			if (game.pageIndex >= pages.length) {
+				game.eHelpText.innerText = "Das wars. Zuklappen und auf zum Komplet.";
+				game.play_state = "finished";
+				window.setTimeout(sound_while_idling, 1000);
+			} else {
+				prepare_source();
+				game.eHelpText.innerText = "Weiterschreiben mit Leertaste.";
+				game.play_state = "wait_space_start_writing";
+				window.setTimeout(sound_while_waiting_for_start, 1000);
+			}
 		}, time);
 	}
 
@@ -154,8 +181,10 @@ function main() {
 
 				if (should_upper) {
 					class_ = "maj";
+					trigger_saying("p");
 				} else {
 					class_ = "wrongmaj";
+					trigger_saying("n");
 				}
 			} else {
 				next = next.toLowerCase();
@@ -239,6 +268,9 @@ function main() {
 			o.Element.addEventListener('loadedmetadata', (event) => {
 				o.duration = o.Element.duration;
 			});
+			o.Element.addEventListener('ended', (event) => {
+				game.sayings.is_playing = false;
+			});
 			return o;
 		}
 
@@ -247,7 +279,21 @@ function main() {
 		let sayingss = {} // speedup
 		let sayingsg = {} // general
 		let sayingsc = {} // credits
-		game.sayings = {p: sayingsp, n: sayingsn, g: sayingsg, c: sayingsc, s: sayingss};
+		game.sayings = {
+			is_playing: false,
+			p: sayingsp,
+			n: sayingsn,
+			g: sayingsg,
+			c: sayingsc,
+			s: sayingss,
+			unsaid_keys: {
+				p: [],
+				n: [],
+				g: [],
+				c: [],
+				s: [],
+			}
+		};
 
 		sayingsn.alsbrennmaterialtaugteswohl = make_saying("v-alsbrennmaterialtaugteswohl");
 		sayingsn.ausdiesemskriptumkannmanhoechstenseinebuchstabsneuppemachen = make_saying("v-ausdiesemskriptumkannmanhoechstenseinebuchstabsneuppemachen");
@@ -331,6 +377,31 @@ function main() {
 	    }
 
 	    do_ambient();
+	}
+
+	function shuffle(a) {
+	    for (let i = a.length - 1; i > 0; i--) {
+	        const j = Math.floor(Math.random() * (i + 1));
+	        [a[i], a[j]] = [a[j], a[i]];
+	    }
+	    return a;
+	}
+
+	function trigger_saying(type) {
+		if (game.sayings.is_playing) {
+			return;
+		}
+		if (game.sayings.unsaid_keys[type].length == 0) {
+			const keys = Object.keys(game.sayings[type]);
+			shuffle(keys)
+			game.sayings.unsaid_keys[type] = keys;
+		}
+		const key = game.sayings.unsaid_keys[type].pop();
+		const saying = game.sayings[type][key];
+		game.sayings.is_playing = true;
+		saying.Element.play();
+		console.log(`Saying: ${key} (takes ${saying.duration}s)`);
+		return Math.floor(saying.duration * 1000);
 	}
 
 	setup_audio();
