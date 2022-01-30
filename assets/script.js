@@ -394,7 +394,7 @@ function main() {
 		sayingsp.manwaechstmitseinenaufgaben = make_saying("v-manwaechstmitseinenaufgaben");
 		sayingsp.meistergutenberghaetteesnichtbesserdruckenkoennen = make_saying("v-meistergutenberghaetteesnichtbesserdruckenkoennen");
 		sayingsp.minuskelnsindeurestaerke = make_saying("v-minuskelnsindeurestaerke");
-		sayingsg.morgenstundhatgoldimmund = make_saying("v-morgenstundhatgoldimmund");
+		//sayingsg.morgenstundhatgoldimmund = make_saying("v-morgenstundhatgoldimmund");
 		sayingsn.nunjaerrarehumanumest = make_saying("v-nunjaerrarehumanumest");
 		sayingsg.oraetlabora = make_saying("v-oraetlabora");
 		sayingsn.papieristgeduldig = make_saying("v-papieristgeduldig");
