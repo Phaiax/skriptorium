@@ -462,6 +462,15 @@ function main() {
 
 	game.eMuteButton.addEventListener('click', (event) => { game.toggle_mute(); });
 
+	game.eFullscreenButton.addEventListener('click', (event) => {
+		if (!document.fullscreenElement) {
+			document.documentElement.requestFullscreen();
+		} else {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			}
+		}
+	});
 
 	setup_audio();
 	show_welcome();

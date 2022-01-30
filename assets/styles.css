@@ -41,9 +41,13 @@ body {
 
 .ctl-button {
 	position: absolute;
-	top: -40px;
+	top: 15px;
 	height: 32px;
 	width: 32px;
+	border-radius: 2px;
+	padding: 4px;
+	z-index: 20;
+	background-color: #44444480;
 }
 .ctl-button > img {
 	height: 32px;
