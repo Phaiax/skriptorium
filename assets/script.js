@@ -243,24 +243,24 @@ function main() {
 		let ambients = {}
 		game.ambients = ambients;
 
-		ambients.activity1 = make_ambient("a-activity1", 0.2);
-		ambients.activity2 = make_ambient("a-activity2", 0.2);
-		ambients.activity3 = make_ambient("a-activity3", 0.2);
-		ambients.activity4 = make_ambient("a-activity4", 0.2);
-		ambients.activity5 = make_ambient("a-activity5", 0.2);
-		ambients.activity6 = make_ambient("a-activity6", 0.2);
-		ambients.activity7 = make_ambient("a-activity7", 0.2);
-		ambients.activity8 = make_ambient("a-activity8", 0.2);
-		ambients.activity9 = make_ambient("a-activity9", 0.2);
-		ambients.activity10 = make_ambient("a-activity10", 0.2);
-		// ambients.choral = make_ambient("a-choral", 0.1);
+		ambients.activity1 = make_ambient("a-activity1", 0.6);
+		ambients.activity2 = make_ambient("a-activity2", 0.6);
+		ambients.activity3 = make_ambient("a-activity3", 0.6);
+		ambients.activity4 = make_ambient("a-activity4", 0.6);
+		ambients.activity5 = make_ambient("a-activity5", 0.6);
+		ambients.activity6 = make_ambient("a-activity6", 0.6);
+		ambients.activity7 = make_ambient("a-activity7", 0.6);
+		ambients.activity8 = make_ambient("a-activity8", 0.6);
+		ambients.activity9 = make_ambient("a-activity9", 0.6);
+		ambients.activity10 = make_ambient("a-activity10", 0.6);
+		ambients.choral = make_ambient("a-choral", 0.1);
 		ambients.mumble1 = make_ambient("a-mumble1", 0.4);
 		ambients.mumble2 = make_ambient("a-mumble2", 0.4);
-		ambients.paper = make_ambient("a-paper", 0.3);
-		ambients.steps1 = make_ambient("a-steps1", 0.4);
-		ambients.steps2 = make_ambient("a-steps2", 0.4);
-		ambients.quill1 = make_ambient("a-quill1", 0.4);
-		ambients.quill2 = make_ambient("a-quill2", 0.4);
+		ambients.paper = make_ambient("a-paper", 0.5);
+		ambients.steps1 = make_ambient("a-steps1", 0.5);
+		ambients.steps2 = make_ambient("a-steps2", 0.5);
+		ambients.quill1 = make_ambient("a-quill1", 0.6);
+		ambients.quill2 = make_ambient("a-quill2", 0.6);
 
 		function make_saying(id) {
 			let o = {}
