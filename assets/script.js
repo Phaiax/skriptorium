@@ -20,6 +20,10 @@ function main() {
 	game.eScoreCnt = document.getElementById('scorecnt');
 	game.eScoreArea = document.getElementById('score-area');
 	game.eStartButton = document.getElementById('start-button');
+	game.eMuteButton = document.getElementById('mute-button');
+	game.eMutedImg = document.getElementById('muted');
+	game.eNotMutedImg = document.getElementById('not-muted');
+	game.eFullscreenButton = document.getElementById('fullscreen-button');
 
 	document.body.onkeydown = (e) => {
 		// console.log(e);
@@ -226,6 +230,24 @@ function main() {
 	function setup_audio() {
 		const audioContext = new AudioContext();
 		game.audioContext = audioContext;
+		game.finalGain = new GainNode(audioContext, {gain: 1});
+		game.finalGain.connect(audioContext.destination);
+
+		game.toggle_mute = function() {
+			const is_muted = game.finalGain.gain.value < 0.1;
+			if (is_muted || !game.ambients_started) {
+				console.log("UnMute");
+				game.finalGain.gain.value = 1.0;
+				game.eMutedImg.style.display = "none";
+				game.eNotMutedImg.style.display = "block";
+				start_ambient();
+			} else {
+				console.log(`Mute ${game.finalGain.gain.value}`);
+				game.finalGain.gain.value = 0.0;
+				game.eMutedImg.style.display = "block";
+				game.eNotMutedImg.style.display = "none";
+			}
+		}
 
 		function make_ambient(id, gain) {
 			let o = {}
@@ -233,7 +255,7 @@ function main() {
 			o.Src = audioContext.createMediaElementSource(o.Element);
 			o.Gain = new GainNode(audioContext, {gain: gain});
 			o.Panner = new StereoPannerNode(audioContext, { pan: 0 });
-			o.Src.connect(o.Gain).connect(o.Panner).connect(audioContext.destination);
+			o.Src.connect(o.Gain).connect(o.Panner).connect(game.finalGain);
 			o.duration = 1; // not undefined :)
 			o.Element.addEventListener('loadedmetadata', (event) => {
 				o.duration = o.Element.duration;
@@ -268,7 +290,7 @@ function main() {
 			o.Src = audioContext.createMediaElementSource(o.Element);
 			o.Gain = new GainNode(audioContext, {gain: 0.8});
 			o.Panner = new StereoPannerNode(audioContext, { pan: 0 });
-			o.Src.connect(o.Gain).connect(o.Panner).connect(audioContext.destination);
+			o.Src.connect(o.Gain).connect(o.Panner).connect(game.finalGain);
 			o.duration = 1; // not undefined :)
 			o.Element.addEventListener('loadedmetadata', (event) => {
 				o.duration = o.Element.duration;
@@ -378,16 +400,16 @@ function main() {
 			window.setTimeout(do_ambient, (ambient.duration * 1000) + wait_to_next);
 		}
 
-		let ambients_started = false;
+		game.ambients_started = false;
 		function start_ambient() {
 		    if (game.audioContext.state === 'suspended') {
 		        game.audioContext.resume();
 		    }
 
-		    if (ambients_started) {
+		    if (game.ambients_started) {
 		    	return;
 		    }
-		    ambients_started = true;
+		    game.ambients_started = true;
 		    do_ambient();
 		}
 		game.start_ambient = start_ambient;
@@ -434,9 +456,12 @@ function main() {
 		game.scene = "play";
 		game.eSceneWelcome.style.display = "none";
 		game.eScenePlay.style.display = "block";
-		game.start_ambient(); // start sound only after user interaction
+		game.toggle_mute(); // also does game.start_ambient(); // start sound only after user interaction
 		start_game();
 	});
+
+	game.eMuteButton.addEventListener('click', (event) => { game.toggle_mute(); });
+
 
 	setup_audio();
 	show_welcome();

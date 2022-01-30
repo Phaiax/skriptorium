@@ -30,12 +30,39 @@ body {
 }
 
 #playarea {
+	position: relative;
 	width: 1280px;
 	/*max-width: 90%;*/
 	height: 800px;
 	/*max-height: 90%;*/
 	background-color: #00000090;
 	border-radius: 8px;
+}
+
+.ctl-button {
+	position: absolute;
+	top: -40px;
+	height: 32px;
+	width: 32px;
+}
+.ctl-button > img {
+	height: 32px;
+	width: 32px;
+	cursor: pointer;
+}
+.ctl-button:hover > img {
+	height: 36px;
+	width: 36px;
+	margin-left: -2px;
+	margin-top: -2px;
+	cursor: pointer;
+}
+
+#mute-button {
+	right: 70px;
+}
+#fullscreen-button {
+	right: 15px;
 }
 
 #scene-welcome {
