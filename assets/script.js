@@ -51,9 +51,10 @@ function main() {
 	};
 
 
-	let pages = [`Es war Piemontkirschenzeit und der Tag begann mit Krönung Light. Auch im Hause von Kaiser, wo sich die böse Stiefmutter mal wieder in ihrem Cholesterinspiegel überprüfte. Dieser sprach zu ihr: 'Du besitzt zwar immer noch die Kraft der zwei Herzen, aber Schneekoppewittchen hat dafür das volle Verwöhnaroma!`,
-				 `Das ärgerte die Stiefmutter ganz gewaltig und sie beschloss, einen Jägermeister auszusenden, um Schneekoppewittchen zu beseitigen. Dieser ging mit Schneekoppewittchen in den Wald, damit ihn die Kräuterpolizei nicht ertappen konnte.`,
-				 `Dort richtete er seinen Danone auf Schneekoppewittchen, um ihr die Kugel zu geben. Allerdings erwies sich der Jägermeister als kleiner Feigling. Denn er hatte nicht den nötigen Mumm um sie zu erschießen. Das war ja schließlich auch nicht die feine Englische Art. Also sagte Schneekoppewittchen: 'Merci!' und rannte zu den sieben Bergen in das Haus der sieben Fruchtzwerge. Die Fruchtzwerge waren aber gerade in ihrem Bergwerk in Villabajo, um Goldbären und Megaperls abzubauen.`];
+	let pages = [`Dieses Manuskript enthält vertrauliche Informationen! Geheimhaltungsstufe drei! Weitergabe nur an Mitverschworene! Inquistitutionelle Einstufung: Nicht hexerisch!`,
+				 `Herstellung von Gnauf-Wringen. Zerkleinere ein Dutzend Stücke Bleckkritze und bedecke sie mit einer Schicht Zupfschnolze. Erhitze diese über Nacht im Ofen. Nach dem Auskühlen muss die entstande Nockschlemme für eine Stunde unter den Blitzradiator gezwimpelt werden. Nach erfolger Aufladung kann die Schlacke mit dem Schlackelöffel abgehoben werden.`,
+				 `Neutralisieren Sie die Kernspannung durch Eintauchen in gesalzenes Wasser. Das verbleibende Wasser kann danach zum Beispiel für ein Bad zweitverwertet werden. Prüfen Sie den Frankenstein-Faktor mit einer Briegelzwinge. Ist der Faktor weniger als vier, prüfen Sie die Ausrichtung des Blitzradiators und wiederholen Schritt drei.`,
+				 `Zuletzt bestreiche die Roh-Wringe mit Mukselmost und fertig ist die Gnauf-Wringe. Zur korrekten Verwendung der Gnauf-Wringe lesen Sie Kapitel zwei.`];
 
 
 	const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Z', 'Y', 'Ä', 'Ö', 'Ü'];
