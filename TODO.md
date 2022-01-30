@@ -3,26 +3,34 @@
 # Todos
 
 # MVP
- - Interface: Vorlage und schreibteil
- - Score
- - Shifttaste
- - Font
- - Position hint
- - Typing
+ [x] Interface: Vorlage und schreibteil
+ [x] Score
+ [x] Shifttaste / Leertaste
+ [x] Font
+ [ ] Position hint
+ [x] Typing
 
 # Polish
- - Ambient
-    - Paper shuffle
-    - Räuspern
-    - Fire
-    - Monk singing
-    - Schreibgeräusche Feder
- - Comments
- - Design
- - Favicon
- - Set browser to "block audio", check that it works non the less
+ [x] Ambient
+    [x] Paper shuffle
+    [x] Räuspern
+    [/] Fire
+    [x] Monk singing
+    [ ] Extra quill sound
+ [x] Voice commentary
+ [x] Design
+ [x] Set browser to "block audio", check that it works non the less
+ [ ] Favicon
 
 # Extra
- - Writing animation
- - Highscore
- - Server Highscore
+ [ ] Writing animation
+ [/] Highscore
+ [/] Server Highscore
+
+
+# Remaining
+ [ ] Mute button
+ [ ] Fullscreen button
+ [ ] Better text
+ [ ] More allowance in spacebar timing
+ 

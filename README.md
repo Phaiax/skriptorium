@@ -4,6 +4,11 @@ Global Game Jam 2022 - Das Skriptorium
 
 [Play here](https://phaiax.github.io/skriptorium/index.html)
 
+
+To run this game locally, you need to spin up a webserver. (Because browsers have certain crossorigin policies regarding media files).
+
+It's as simple as running `python3 -m http.server` in the directory that contains the index.html. Then you can access the game at `http://localhost:8000`.
+
 # Authors
 
 - Phaiax
