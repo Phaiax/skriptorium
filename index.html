@@ -10,21 +10,32 @@
 
 <div id="layout-parent">
 	<div id="playarea">
-		<h1 id="main-title">Das Skriptorium</h1>
-
-		<div id="books">
-			<div id="source">
-				<img src="assets/book_right.png" />
-				<div class="page-area">
-					<p id="source-text"></p>
+		<div id="scene-welcome" class="scene">
+			<h1 id="main-title">Das Skriptorium</h1>
+			
+			<button id="start-button">Starten</button>
+			<img src="assets/braceleft.png" id="braceleft" />
+			<img src="assets/braceright.png" id="braceright" />
+			<div id="expl-majuskel">Majuskel</div>
+			<div id="expl-minuskel">Minuskel</div>
+			<div id="expl-intro">Wilkommen im Skriptorium der Majuskeln und Minuskeln, wo wir Mönche und Schreiberlinge seit vielen Jahrhunderten die großen Schriften unserer Zeit bewahren und vervielfältigen.<br><br>Du bist gut im Anfertigen von Abschriften? <br>Hier ist ein wichtiger Text, der heute noch abgeschrieben werden muss!</div>
+		</div>
+		<div id="scene-play" class="scene">
+			<div id="books">
+				<div id="source">
+					<img src="assets/book_right.png" />
+					<div class="page-area">
+						<p id="source-text"></p>
+					</div>
 				</div>
-			</div>
-			<div id="target"><img src="assets/book_left.png" />
-				<div class="page-area">
-					<p id="target-text"></p>
+				<div id="target">
+					<img src="assets/book_left.png" />
+					<div class="page-area">
+						<p id="target-text"></p>
+					</div>
+					<div id="score-area" class="noscore">Score: <div id="scorecnt">0</div></div>
+					<div id="help-area"><p id="help-text"></p></div>
 				</div>
-				<div id="score-area" class="noscore">Score: <div id="scorecnt">0</div></div>
-				<div id="help-area"><p id="help-text"></p></div>
 			</div>
 		</div>
 	</div>

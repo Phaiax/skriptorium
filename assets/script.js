@@ -4,6 +4,7 @@
 function main() {
 
 	let game = main;
+	game.scene = null;
 	game.playing = false;
 	game.play_state = false;
 	game.shiftState = false;
@@ -11,11 +12,14 @@ function main() {
 
 	game.fasttrack = false;
 
+	game.eSceneWelcome = document.getElementById('scene-welcome');
+	game.eScenePlay = document.getElementById('scene-play');
 	game.eTargetText = document.getElementById('target-text');
 	game.eSourceText = document.getElementById('source-text');
 	game.eHelpText = document.getElementById('help-text');
 	game.eScoreCnt = document.getElementById('scorecnt');
 	game.eScoreArea = document.getElementById('score-area');
+	game.eStartButton = document.getElementById('start-button');
 
 	document.body.onkeydown = (e) => {
 		// console.log(e);
@@ -101,12 +105,13 @@ function main() {
 	}
 
 	function sound_while_idling() {
-		if (game.play_state != "finished") {
-			return;
+		if ((game.scene == "play" && game.play_state == "finished") || game.scene == "welcome") {
+			const duration = trigger_saying("g");
+			window.setTimeout(sound_while_idling, duration +
+				3000 + get_random_int(8000));
+		} else {
+			// don't call again
 		}
-		const duration = trigger_saying("g");
-		window.setTimeout(sound_while_idling, duration +
-			3000 + get_random_int(8000));
 	}
 
 	function on_page_finished() {
@@ -372,11 +377,19 @@ function main() {
 			window.setTimeout(do_ambient, (ambient.duration * 1000) + wait_to_next);
 		}
 
-	    if (audioContext.state === 'suspended') {
-	        audioContext.resume();
-	    }
+		let ambients_started = false;
+		function start_ambient() {
+		    if (game.audioContext.state === 'suspended') {
+		        game.audioContext.resume();
+		    }
 
-	    do_ambient();
+		    if (ambients_started) {
+		    	return;
+		    }
+		    ambients_started = true;
+		    do_ambient();
+		}
+		game.start_ambient = start_ambient;
 	}
 
 	function shuffle(a) {
@@ -404,8 +417,28 @@ function main() {
 		return Math.floor(saying.duration * 1000);
 	}
 
+	function show_welcome() {
+		game.scene = "welcome";
+		game.eSceneWelcome.style.display = "block";
+		game.eScenePlay.style.display = "none";
+		if (game.hadUserInteraction) { // 2nd time welcome screen, after first game
+
+		}
+	}
+
+	game.hadUserInteraction = false;
+
+	game.eStartButton.addEventListener('click', (event) => {
+		game.hadUserInteraction = true;
+		game.scene = "play";
+		game.eSceneWelcome.style.display = "none";
+		game.eScenePlay.style.display = "block";
+		game.start_ambient(); // start sound only after user interaction
+		start_game();
+	});
+
 	setup_audio();
-	start_game();
+	show_welcome();
 
 }
 
