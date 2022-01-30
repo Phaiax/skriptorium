@@ -5,6 +5,7 @@ function main() {
 
 	let game = main;
 	game.playing = false;
+	game.play_state = false;
 	game.shiftState = false;
 	game.shiftState1 = false;
 
@@ -12,18 +13,21 @@ function main() {
 
 	game.eTargetText = document.getElementById('target-text');
 	game.eSourceText = document.getElementById('source-text');
+	game.eHelpText = document.getElementById('help-text');
 	game.eScoreCnt = document.getElementById('scorecnt');
-	game.eCollection = document.getElementById('collection');
+	game.eScoreArea = document.getElementById('score-area');
 
 	document.body.onkeydown = (e) => {
 		// console.log(e);
-		if (e.key == "Shift") {
+		if (e.key == "Shift" || e.key == " ") {
 			game.shiftState = true;
 			game.shiftState1 = true;
-		}
-		if (e.key == " ") {
-			game.shiftState = true;
-			game.shiftState1 = true;
+			if (game.play_state === "wait_space_start_writing") {
+				on_space_start_writing();
+			} 
+			if (game.play_state === "wait_space_page_turn") {
+				on_space_page_turn();
+			} 
 		}
 		if (e.key == "f") {
 			game.fasttrack = !game.fasttrack;
@@ -31,10 +35,7 @@ function main() {
 	};
 	document.body.onkeyup = (e) => {
 		// console.log(e);
-		if (e.key == "Shift") {
-			game.shiftState = false;
-		}
-		if (e.key == " ") {
+		if (e.key == "Shift" || e.key == " ") {
 			game.shiftState = false;
 		}
 	};
@@ -60,47 +61,77 @@ function main() {
 		game.playing = true;
 		game.currWaitTime = 400;
 		game.score = 0;
-		game.collection = "";
+		update_score();
 		if (game.fasttrack) {
 			game.currWaitTime = 10;
 		}
 
 		game.pageIndex = 0;
-		open_page();
+		prepare_source();
+		game.eHelpText.innerText = "Drücke die Leertaste zum Starten und zum Großschreiben.";
+		game.play_state = "wait_space_start_writing";
 	}
 
-	function update_score(delta, majuskel) {
+	function update_score(delta) {
 		if (delta !== undefined) {
-			game.score = Math.max(0, game.score + delta);
+			// game.score = Math.max(0, game.score + delta);
+			game.score = game.score + delta;
 		}
-		if (majuskel !== undefined) {
-			game.collection += majuskel;
-		}
-		if (delta < 0 && game.collection.length >= -delta) {
-			game.collection = game.collection.slice(0, delta);
-		}
-		game.eCollection.innerText = game.collection;
 		game.eScoreCnt.innerText = game.score;
-
 	}
 
-
-	function open_page() {
-		if (pages[game.pageIndex] === undefined) {
-			game.playing = false;
-			return;
-		}
+	function prepare_source() {
 		game.eSourceText.innerHTML = classify_majuskels(pages[game.pageIndex]);
 		game.nextLetterIndex = 0;
 		game.shiftState1 = true;
 		game.eTargetText.innerHTML = "";
+		game.eTargetText.setAttribute('class', '');
 		game.collection = "";
 		update_score();
-		let pageDelay = 2000;
-		if (game.fasttrack) {
-			pageDelay = 200;
+	}
+
+	function on_page_finished() {
+		game.pageIndex += 1;
+		game.play_state = "animation_score_count";
+		game.eTargetText.setAttribute('class', "nomin"); // hide
+		game.eScoreArea.setAttribute('class', ""); // show
+
+		let pluses = document.querySelectorAll(`#target-text .maj`);
+		let minuses = document.querySelectorAll(`#target-text .wrongmaj`);
+		let time = 1700;
+		for (const plus of pluses) {
+			window.setTimeout(() => {
+				update_score(10);
+				plus.setAttribute('class', "maj counted");
+			}, time);
+			time += 150;
 		}
-		window.setTimeout(next_char, game.currWaitTime + pageDelay);
+		for (const minus of minuses) {
+			window.setTimeout(() => {
+				update_score(-10);
+				minus.setAttribute('class', "wrongmaj counted");
+			}, time);
+			time += 150;
+		}
+		time += 1000;
+		window.setTimeout(() => {
+			prepare_source();
+			game.eHelpText.innerText = "Weiterschreiben mit Leertaste.";
+			game.play_state = "wait_space_start_writing";
+		}, time);
+	}
+
+
+	function on_space_start_writing() {
+		game.play_state = "writing";
+		game.eHelpText.innerText = "";
+		game.eScoreArea.setAttribute('class', "noscore"); // show
+		if (pages[game.pageIndex] === undefined) {
+			game.playing = false;
+			return;
+		}
+		
+		window.setTimeout(next_char, game.currWaitTime);
 	}
 
 	function next_char() {
@@ -110,45 +141,29 @@ function main() {
 		let next = pages[game.pageIndex][game.nextLetterIndex];
 		game.nextLetterIndex += 1;
 		if (next === undefined) {
-			game.pageIndex += 1;
-			open_page();
+			on_page_finished();
 			return;
 		}
-		let content;
+		let class_ = "min";
 		const is_alphanumeric = next.match(/[a-zA-Z]/) != null;
 		if (is_alphanumeric) {
 			const should_upper = next.match(/[A-Z]/) != null;
-			let is_upper = false;
 			if (game.shiftState || game.shiftState1) {
 				next = next.toUpperCase();
 				game.shiftState1 = false;
-				is_upper = true;
+
+				if (should_upper) {
+					class_ = "maj";
+				} else {
+					class_ = "wrongmaj";
+				}
 			} else {
 				next = next.toLowerCase();
-				// is_upper = false
 			}
-
-			if (is_upper && should_upper) {
-				update_score(3, next);
-			}
-			// if (should_upper && !is_upper) {
-			// 	update_score(-1);
-			// }
-			if (!should_upper && is_upper) {
-				update_score(-1);
-			}
-
-			if (is_upper) {
-				content = document.createElement('span');
-				content.innerText = next;
-				content.setAttribute('class', 'maj')
-			} else {
-				content = document.createTextNode(next);
-			}
-
-		} else {
-			content = document.createTextNode(next);
 		}
+		content = document.createElement('span');
+		content.innerText = next;
+		content.setAttribute('class', class_)
 		game.eTargetText.appendChild(content);
 
 		if (game.currWaitTime > 150) {
@@ -204,7 +219,7 @@ function main() {
 		ambients.activity8 = make_ambient("a-activity8", 0.2);
 		ambients.activity9 = make_ambient("a-activity9", 0.2);
 		ambients.activity10 = make_ambient("a-activity10", 0.2);
-		ambients.choral = make_ambient("a-choral", 0.1);
+		// ambients.choral = make_ambient("a-choral", 0.1);
 		ambients.mumble1 = make_ambient("a-mumble1", 0.4);
 		ambients.mumble2 = make_ambient("a-mumble2", 0.4);
 		ambients.paper = make_ambient("a-paper", 0.3);

@@ -98,7 +98,8 @@ h1#main-title {
 	overflow: hidden;
 	z-index: 10;
 	font-family: "MonksWriting";
-	padding: 40px 110px 0px 130px;
+	font-size: 2em;
+	padding: 50px 110px 0px 130px;
 }
 #target > div#score-area div {
 	display: inline-block;
@@ -109,9 +110,47 @@ h1#main-title {
 #target > div#score-area > div#collected {
 	margin-left: 20px;
 	letter-spacing: 0.2em;
+}
+#target > div#score-area.noscore {
+	opacity: 0;
+	animation-name: change-opacity;
+    animation-duration: 1s;
+}
 
+#target > div#help-area {
+	position: absolute;
+	font-family: "MonksWriting";
+	z-index: 10;
+	font-size: 2em;
+	text-align: center;
+	padding: 250px 110px 0px 130px;
 }
 
 .maj {
 	color: #d40400;
+}
+
+.wrongmaj {
+	color: #3551cc;
+}
+
+.maj.counted, .wrongmaj.counted {
+	opacity: 0;
+	animation-name: change-opacity;
+    animation-duration: 1s;
+}
+
+@keyframes change-opacity {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+
+.min {
+	opacity: 1;
+}
+
+.nomin > .min {
+	opacity: 0;
+	animation-name: change-opacity;
+    animation-duration: 1s;
 }
