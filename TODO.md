@@ -29,8 +29,8 @@
 
 
 # Remaining
- [ ] Mute button
- [ ] Fullscreen button
+ [x] Mute button
+ [x] Fullscreen button
  [ ] Better text
  [ ] More allowance in spacebar timing
- 
+ [x] Credit screen

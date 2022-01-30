@@ -68,6 +68,9 @@ body {
 #fullscreen-button {
 	right: 15px;
 }
+#credits-button {
+	right: 125px;
+}
 
 #scene-welcome {
 	position: relative;
@@ -151,7 +154,13 @@ button:hover {
 	height: 100%;
 	display: none;
 }
+#scene-credits #expl-intro {
+	font-size: 2.8em;
+}
 
+a {
+	color: #eeeeee;
+}
 
 #books {
 	display: flex;

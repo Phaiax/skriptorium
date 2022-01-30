@@ -14,6 +14,7 @@ function main() {
 
 	game.eSceneWelcome = document.getElementById('scene-welcome');
 	game.eScenePlay = document.getElementById('scene-play');
+	game.eSceneCredits = document.getElementById('scene-credits');
 	game.eTargetText = document.getElementById('target-text');
 	game.eSourceText = document.getElementById('source-text');
 	game.eHelpText = document.getElementById('help-text');
@@ -24,6 +25,7 @@ function main() {
 	game.eMutedImg = document.getElementById('muted');
 	game.eNotMutedImg = document.getElementById('not-muted');
 	game.eFullscreenButton = document.getElementById('fullscreen-button');
+	game.eCreditsButton = document.getElementById('credits-button');
 
 	document.body.onkeydown = (e) => {
 		// console.log(e);
@@ -113,6 +115,20 @@ function main() {
 			const duration = trigger_saying("g");
 			window.setTimeout(sound_while_idling, duration +
 				3000 + get_random_int(8000));
+		} else {
+			// don't call again
+		}
+	}
+
+	function sound_while_credits(first) {
+		// easteregg
+		if (game.scene == "credits") {
+			let duration = 0;
+			if (first !== true) {
+				duration = trigger_saying("c");
+			}
+			window.setTimeout(sound_while_credits, duration +
+				15000 + get_random_int(8000));
 		} else {
 			// don't call again
 		}
@@ -236,16 +252,21 @@ function main() {
 		game.toggle_mute = function() {
 			const is_muted = game.finalGain.gain.value < 0.1;
 			if (is_muted || !game.ambients_started) {
-				console.log("UnMute");
 				game.finalGain.gain.value = 1.0;
-				game.eMutedImg.style.display = "none";
-				game.eNotMutedImg.style.display = "block";
-				start_ambient();
 			} else {
-				console.log(`Mute ${game.finalGain.gain.value}`);
 				game.finalGain.gain.value = 0.0;
+			}
+			game.update_mute_icon();
+		}
+
+		game.update_mute_icon = function() {
+			const is_muted = game.finalGain.gain.value < 0.1;
+			if (is_muted) {
 				game.eMutedImg.style.display = "block";
 				game.eNotMutedImg.style.display = "none";
+			} else {
+				game.eMutedImg.style.display = "none";
+				game.eNotMutedImg.style.display = "block";
 			}
 		}
 
@@ -402,15 +423,18 @@ function main() {
 
 		game.ambients_started = false;
 		function start_ambient() {
+			/// Returns true if already initialized
 		    if (game.audioContext.state === 'suspended') {
 		        game.audioContext.resume();
 		    }
 
 		    if (game.ambients_started) {
-		    	return;
+		    	return true;
 		    }
+		    game.update_mute_icon();
 		    game.ambients_started = true;
 		    do_ambient();
+		    return false;
 		}
 		game.start_ambient = start_ambient;
 	}
@@ -456,19 +480,36 @@ function main() {
 		game.scene = "play";
 		game.eSceneWelcome.style.display = "none";
 		game.eScenePlay.style.display = "block";
-		game.toggle_mute(); // also does game.start_ambient(); // start sound only after user interaction
+		game.start_ambient(); // start sound only after user interaction
 		start_game();
 	});
 
-	game.eMuteButton.addEventListener('click', (event) => { game.toggle_mute(); });
+	game.eMuteButton.addEventListener('click', (event) => {
+
+		if (game.start_ambient()) {
+			game.toggle_mute();
+		}
+	});
 
 	game.eFullscreenButton.addEventListener('click', (event) => {
+		game.start_ambient();
 		if (!document.fullscreenElement) {
 			document.documentElement.requestFullscreen();
 		} else {
 			if (document.exitFullscreen) {
 				document.exitFullscreen();
 			}
+		}
+	});
+
+	game.eCreditsButton.addEventListener('click', (event) => {
+		if (game.scene != "credits") {
+			game.scene = "credits";
+			game.start_ambient();
+			sound_while_credits(true);
+			game.eSceneWelcome.style.display = "none";
+			game.eSceneCredits.style.display = "block";
+			game.eScenePlay.style.display = "none";
 		}
 	});
 
