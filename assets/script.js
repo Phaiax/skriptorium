@@ -83,6 +83,10 @@ function main() {
 		window.setTimeout(sound_while_waiting_for_start, 1000);
 	}
 
+	function stop_game() {
+		game.playing = false;
+	}
+
 	function update_score(delta) {
 		if (delta !== undefined) {
 			// game.score = Math.max(0, game.score + delta);
@@ -465,9 +469,11 @@ function main() {
 	}
 
 	function show_welcome() {
+		stop_game();
 		game.scene = "welcome";
 		game.eSceneWelcome.style.display = "block";
 		game.eScenePlay.style.display = "none";
+		game.eSceneCredits.style.display = "none";
 		if (game.hadUserInteraction) { // 2nd time welcome screen, after first game
 
 		}
@@ -510,6 +516,9 @@ function main() {
 			game.eSceneWelcome.style.display = "none";
 			game.eSceneCredits.style.display = "block";
 			game.eScenePlay.style.display = "none";
+			stop_game();
+		} else {
+			show_welcome();
 		}
 	});
 
